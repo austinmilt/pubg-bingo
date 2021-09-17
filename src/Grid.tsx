@@ -90,6 +90,7 @@ class Grid extends React.Component<Properties, State> {
                     {this.buildGrid()}
                 </div>
                 <small>Seed: <span id="seed">{this.getSeed()}</span></small>
+                <small><a href={`${env().baseUrl}`}>Gimme a new Card</a></small>
                 </main>
         )
     }

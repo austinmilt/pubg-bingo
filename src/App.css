@@ -90,3 +90,8 @@ small {
     padding: 1em;
     text-align: center;
 }
+
+a {
+    font-weight: bold;
+    color: var(--header-color);
+}

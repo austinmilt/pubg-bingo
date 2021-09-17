@@ -3,6 +3,7 @@ import React from "react";
 import seedrandom from 'seedrandom';
 import randomWords from 'random-words';
 import { env } from "./util/env";
+import { getOptions } from "./util/gsheets";
 
 interface Properties {
     rows: number;
@@ -10,17 +11,22 @@ interface Properties {
 }
 
 interface State {
-    selection: string[];
+    selection?: string[];
 }
 
 class Grid extends React.Component<Properties, State> {
 
     constructor(props: Properties) {
         super(props);
-        this.state = {selection: this.makeSelection()};
+        this.state = {};
         this.buildCell = this.buildCell.bind(this);
         this.buildGrid = this.buildGrid.bind(this);
         this.getSeed = this.getSeed.bind(this);
+    }
+
+
+    componentDidMount(): void {
+        this.makeSelection().then(selection => this.setState({selection: selection}));
     }
 
 
@@ -34,10 +40,10 @@ class Grid extends React.Component<Properties, State> {
     }
 
 
-    private makeSelection(): string[] {
+    private async makeSelection(): Promise<string[]> {
         const cells: number = this.props.rows * this.props.columns;
         const result: string[] = [];
-        const remainingOptions: string[] = env().options;
+        const remainingOptions: string[] = await getOptions();
         this.shuffleArray(remainingOptions);
         for (let i = 0; i < cells; i++) {
             result.push(remainingOptions[i]);
@@ -55,8 +61,10 @@ class Grid extends React.Component<Properties, State> {
 
     private buildGrid(): React.ReactNode[] {
         const grid: React.ReactNode[] = [];
-        for (let option of this.state.selection) {
-            grid.push(this.buildCell(option));
+        if (this.state.selection) {
+            for (let option of this.state.selection) {
+                grid.push(this.buildCell(option));
+            }
         }
         return grid;
     }

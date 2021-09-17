@@ -1,0 +1,33 @@
+const options: string[] = [
+    "Touch PP while finishing a knocked player.",
+    "Death by grenade",
+    "Destroy all the tires on a vehicle",
+    "Destroy all the windows on a house",
+    "Destroy all the fences around a house",
+    "Survive an entire red zone",
+    "Make it to top 10",
+    "Jump from a glider and survive",
+    "Land glider in an inaccessible location",
+    "Deny a kill",
+    "Steal a kill from an enemy",
+    "Drink Pepsi",
+    "Spend all of round 3+ in blue zone",
+    "Knock by vehicle",
+    "Go round 5+ naked" ,
+    "Get a brdm",
+    "Knock / kill while jumping",
+    "Smoke Marlboro lights",
+    "Have sex with Arrby",
+    "Win the lottery",
+    "Dont be a pedophile",
+    "Ask Shakira out on a date",
+    "Forage wild grapes",
+    "Eat a whole lemon",
+    "Drive a beat up Chrysler",
+    "Live and let live",
+    "Live and let die",
+    "Remember the Al Homo",
+    "Time your poop"
+];
+
+export {options}

@@ -7,7 +7,7 @@ type AppProfile = 'default' | 'dev' | 'prod';
 interface AppConfig {
     profile: AppProfile;
     baseUrl: string;
-    options: string[];
+    optionsUrl: string;
 }
 
 const DEFAULT: AppConfig = _DEFAULT as AppConfig;

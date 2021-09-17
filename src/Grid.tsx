@@ -1,12 +1,12 @@
 import random, { Random } from "random";
 import React from "react";
-import { options } from "./options";
 import seedrandom from 'seedrandom';
+import randomWords from 'random-words';
+import { env } from "./util/env";
 
 interface Properties {
     rows: number;
     columns: number;
-    seed: string;
 }
 
 interface State {
@@ -20,13 +20,24 @@ class Grid extends React.Component<Properties, State> {
         this.state = {selection: this.makeSelection()};
         this.buildCell = this.buildCell.bind(this);
         this.buildGrid = this.buildGrid.bind(this);
+        this.getSeed = this.getSeed.bind(this);
+    }
+
+
+    private getSeed(): string {
+        let seed: string | null = new URLSearchParams(window.location.search).get("seed");
+        if (seed === null) {
+            seed = randomWords(3).join('-');
+            window.history.pushState('seeded', 'seeded', `${env().baseUrl}?seed=${seed}`);
+        }
+        return seed;
     }
 
 
     private makeSelection(): string[] {
         const cells: number = this.props.rows * this.props.columns;
         const result: string[] = [];
-        const remainingOptions: string[] = options;
+        const remainingOptions: string[] = env().options;
         this.shuffleArray(remainingOptions);
         for (let i = 0; i < cells; i++) {
             result.push(remainingOptions[i]);
@@ -36,7 +47,8 @@ class Grid extends React.Component<Properties, State> {
 
 
     private shuffleArray(array: any[]): void {
-        const rand: Random = random.clone(seedrandom(this.props.seed));
+        const seed: string = this.getSeed();
+        const rand: Random = random.clone(seedrandom(seed));
         array.sort(() => rand.float() - 0.5);
     }
 
@@ -69,7 +81,7 @@ class Grid extends React.Component<Properties, State> {
                 <div className="grid">
                     {this.buildGrid()}
                 </div>
-                <small>Seed: <span id="seed">{this.props.seed}</span></small>
+                <small>Seed: <span id="seed">{this.getSeed()}</span></small>
                 </main>
         )
     }

@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/pubg-bingo/static/css/main.a617e044.chunk.css",
+    "main.js": "/pubg-bingo/static/js/main.b18b5772.chunk.js",
+    "main.js.map": "/pubg-bingo/static/js/main.b18b5772.chunk.js.map",
+    "runtime-main.js": "/pubg-bingo/static/js/runtime-main.e25fe6a8.js",
+    "runtime-main.js.map": "/pubg-bingo/static/js/runtime-main.e25fe6a8.js.map",
+    "static/js/2.36b484f4.chunk.js": "/pubg-bingo/static/js/2.36b484f4.chunk.js",
+    "static/js/2.36b484f4.chunk.js.map": "/pubg-bingo/static/js/2.36b484f4.chunk.js.map",
+    "static/js/3.c6125613.chunk.js": "/pubg-bingo/static/js/3.c6125613.chunk.js",
+    "static/js/3.c6125613.chunk.js.map": "/pubg-bingo/static/js/3.c6125613.chunk.js.map",
+    "index.html": "/pubg-bingo/index.html",
+    "static/css/main.a617e044.chunk.css.map": "/pubg-bingo/static/css/main.a617e044.chunk.css.map",
+    "static/js/2.36b484f4.chunk.js.LICENSE.txt": "/pubg-bingo/static/js/2.36b484f4.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/pubg-bingo/static/media/logo.6ce24c58.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e25fe6a8.js",
+    "static/js/2.36b484f4.chunk.js",
+    "static/css/main.a617e044.chunk.css",
+    "static/js/main.b18b5772.chunk.js"
+  ]
+}

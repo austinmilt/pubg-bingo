@@ -11,6 +11,8 @@ interface Properties {
 }
 
 interface State {
+    game: string;
+    seed: string;
     selection?: string[];
 }
 
@@ -18,7 +20,7 @@ class Grid extends React.Component<Properties, State> {
 
     constructor(props: Properties) {
         super(props);
-        this.state = {};
+        this.state = {game: env().gameDefault, seed: ''};
         this.buildCell = this.buildCell.bind(this);
         this.buildGrid = this.buildGrid.bind(this);
         this.getSeed = this.getSeed.bind(this);
@@ -26,25 +28,19 @@ class Grid extends React.Component<Properties, State> {
 
 
     componentDidMount(): void {
-        this.makeSelection().then(selection => this.setState({selection: selection}));
+        const params: URLSearchParams = new URLSearchParams(window.location.search);
+        const game: string = this.getGame(params);
+        const seed: string = this.getSeed(params);
+        this.setState({game: game, seed: seed});
+        this.makeSelection(game, seed).then(selection => this.setState({selection: selection}));
     }
 
 
-    private getSeed(): string {
-        let seed: string | null = new URLSearchParams(window.location.search).get("seed");
-        if (seed === null) {
-            seed = randomWords(3).join('-');
-            window.history.pushState('seeded', 'seeded', `${env().baseUrl}?seed=${seed}`);
-        }
-        return seed;
-    }
-
-
-    private async makeSelection(): Promise<string[]> {
+    private async makeSelection(game: string, seed: string): Promise<string[]> {
         const cells: number = this.props.rows * this.props.columns;
         const result: string[] = [];
-        const remainingOptions: string[] = await getOptions();
-        this.shuffleArray(remainingOptions);
+        const remainingOptions: string[] = await getOptions(game);
+        this.shuffleArray(remainingOptions, seed);
         for (let i = 0; i < cells; i++) {
             result.push(remainingOptions[i]);
         }
@@ -52,10 +48,29 @@ class Grid extends React.Component<Properties, State> {
     }
 
 
-    private shuffleArray(array: any[]): void {
-        const seed: string = this.getSeed();
+    private getGame(params: URLSearchParams): string {
+        let game: string | null = params.get("game");
+        if (game === null) {
+            game = env().gameDefault;
+            window.history.pushState('gamed', 'gamed', `${env().baseUrl}?game=${game}&seed=${this.getSeed(params)}`);
+        }
+        return game;
+    }
+
+
+    private shuffleArray(array: any[], seed: string): void {
         const rand: Random = random.clone(seedrandom(seed));
         array.sort(() => rand.float() - 0.5);
+    }
+
+    
+    private getSeed(params: URLSearchParams): string {
+        let seed: string | null = params.get("seed");
+        if (seed === null) {
+            seed = randomWords(3).join('-');
+            window.history.pushState('seeded', 'seeded', `${env().baseUrl}?game=${this.getGame(params)}&seed=${seed}`);
+        }
+        return seed;
     }
 
 
@@ -79,7 +94,7 @@ class Grid extends React.Component<Properties, State> {
         return (
             <main>
                 <h1>
-                    PUBG<br/>
+                    {env().gameTitle[this.state.game]}<br/>
                     <span>B</span>
                     <span>I</span>
                     <span>N</span>
@@ -89,9 +104,9 @@ class Grid extends React.Component<Properties, State> {
                 <div className="grid">
                     {this.buildGrid()}
                 </div>
-                <small>Seed: <span id="seed">{this.getSeed()}</span></small>
+                <small>Seed: <span id="seed">{this.state.seed}</span></small>
                 <small><a href={`${env().baseUrl}`}>Gimme a new Card</a></small>
-                </main>
+            </main>
         )
     }
 }

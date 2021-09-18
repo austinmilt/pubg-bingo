@@ -8,6 +8,9 @@ interface AppConfig {
     profile: AppProfile;
     baseUrl: string;
     optionsUrl: string;
+    gameColumn: {[game: string]: string};
+    gameTitle: {[game: string]: string};
+    gameDefault: string;
 }
 
 const DEFAULT: AppConfig = _DEFAULT as AppConfig;
@@ -16,14 +19,18 @@ const PROD: AppConfig = overrideDefaults(DEFAULT, _PROD);
 
 
 function overrideDefaults(defaults: any, overrides: any): any {
+    console.log(defaults, overrides);
     const result: any = {};
     if (isObject(defaults)) {
         for (let [key, value] of Object.entries(defaults)) {
             if (isObject(value)) {
                 result[key] = overrideDefaults(value, overrides[key]);
 
-            } else {
+            } else if (overrides) {
                 result[key] = overrides[key] === undefined ? value : overrides[key];
+                
+            } else {
+                result[key] = value;
             }
         }
     }

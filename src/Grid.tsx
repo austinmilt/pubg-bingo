@@ -29,8 +29,13 @@ class Grid extends React.Component<Properties, State> {
 
     componentDidMount(): void {
         const params: URLSearchParams = new URLSearchParams(window.location.search);
-        const game: string = this.getGame(params);
-        const seed: string = this.getSeed(params);
+        let game: string | null = this.getGame(params);
+        let seed: string | null = this.getSeed(params);
+        if (!game || !seed) {
+            if (!game) game = this.pickGame();
+            if (!seed) seed = this.pickSeed();
+            window.history.pushState('generated', 'generated', `${env().baseUrl}?game=${game}&seed=${seed}`);
+        }
         this.setState({game: game, seed: seed});
         this.makeSelection(game, seed).then(selection => this.setState({selection: selection}));
     }
@@ -48,13 +53,13 @@ class Grid extends React.Component<Properties, State> {
     }
 
 
-    private getGame(params: URLSearchParams): string {
-        let game: string | null = params.get("game");
-        if (game === null) {
-            game = env().gameDefault;
-            window.history.pushState('gamed', 'gamed', `${env().baseUrl}?game=${game}&seed=${this.getSeed(params)}`);
-        }
-        return game;
+    private getGame(params: URLSearchParams): string | null {
+        return params.get("game");
+    }
+
+
+    private pickGame(): string {
+        return env().gameDefault;
     }
 
 
@@ -64,13 +69,13 @@ class Grid extends React.Component<Properties, State> {
     }
 
     
-    private getSeed(params: URLSearchParams): string {
-        let seed: string | null = params.get("seed");
-        if (seed === null) {
-            seed = randomWords(3).join('-');
-            window.history.pushState('seeded', 'seeded', `${env().baseUrl}?game=${this.getGame(params)}&seed=${seed}`);
-        }
-        return seed;
+    private getSeed(params: URLSearchParams): string | null {
+        return params.get("seed");
+    }
+
+
+    private pickSeed(): string {
+        return randomWords(3).join('-');
     }
 
 
@@ -105,7 +110,7 @@ class Grid extends React.Component<Properties, State> {
                     {this.buildGrid()}
                 </div>
                 <small>Seed: <span id="seed">{this.state.seed}</span></small>
-                <small><a href={`${env().baseUrl}`}>Gimme a new Card</a></small>
+                <small><a href={`${env().baseUrl}?game=${this.state.game}`}>Gimme a new Card</a></small>
             </main>
         )
     }

@@ -19,7 +19,6 @@ const PROD: AppConfig = overrideDefaults(DEFAULT, _PROD);
 
 
 function overrideDefaults(defaults: any, overrides: any): any {
-    console.log(defaults, overrides);
     const result: any = {};
     if (isObject(defaults)) {
         for (let [key, value] of Object.entries(defaults)) {
@@ -28,7 +27,7 @@ function overrideDefaults(defaults: any, overrides: any): any {
 
             } else if (overrides) {
                 result[key] = overrides[key] === undefined ? value : overrides[key];
-                
+
             } else {
                 result[key] = value;
             }

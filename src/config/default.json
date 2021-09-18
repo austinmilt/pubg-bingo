@@ -1,5 +1,8 @@
 {
     "profile": "default",
     "baseUrl": "http://localhost:3000/",
-    "optionsUrl": "https://sheets.googleapis.com/v4/spreadsheets/1T_jMoqbcTFIeQK7mKIyXeFTJPQeHZtQCi7atKeqOyEA/values/Sheet1!A%3AA?key=AIzaSyAHW8WIAwzjn5cSWpUeM7AUtlPFeUYy5iE"
+    "optionsUrl": "https://sheets.googleapis.com/v4/spreadsheets/1T_jMoqbcTFIeQK7mKIyXeFTJPQeHZtQCi7atKeqOyEA/values/Sheet1!${COLUMN}%3A${COLUMN}?key=AIzaSyAHW8WIAwzjn5cSWpUeM7AUtlPFeUYy5iE",
+    "gameColumn": {"pubg": "A", "roe": "B", "dota": "C"},
+    "gameTitle": {"pubg": "PUBG", "roe": "RoE", "dota": "DotA"},
+    "gameDefault": "pubg"
 }
